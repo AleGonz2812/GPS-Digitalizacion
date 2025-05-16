@@ -9,7 +9,7 @@ public class GPSDataGenerator {
     public static void generarDatos (String ArchivoCSV){
         ArrayList<GPSData> datos = new ArrayList<>();
         Random random = new Random();
-
+ 
         String busId = "BUS01";
 
         //Coordenadas Sevilla Centro
