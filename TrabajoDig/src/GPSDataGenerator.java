@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Generador {
+public class GPSDataGenerator {
     public static void generarDatos (String ArchivoCSV){
         ArrayList<GPSData> datos = new ArrayList<>();
         Random random = new Random();
@@ -32,5 +32,19 @@ public class Generador {
             GPSData punto = new GPSData(busId, timestamp, lat, lon, speed);
             datos.add(punto);
         }
+        try (FileWriter writer = new FileWriter(ArchivoCSV)) {
+            // Cabecera
+            writer.write("busId,timestamp,latitude,longitude,speed\n");
+
+            // Datos
+            for (GPSData d : datos) {
+                writer.write(d.toString() + "\n");
+            }
+
+            System.out.println("Archivo generado: " + ArchivoCSV);
+        } catch (IOException e) {
+            System.out.println("Error al escribir el archivo: " + e.getMessage());
+        }
+
     }
 }
