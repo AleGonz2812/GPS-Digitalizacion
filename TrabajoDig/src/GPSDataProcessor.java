@@ -32,6 +32,24 @@ public class GPSDataProcessor {
 
         }
         return validos;
+    }
+    /**
+     * Metodo que filtra los registros de un autobús específico a partir de una lista de datos GPS.
+     *
+     * @param datos Lista completa de objetos GPSData.
+     * @param busId Identificador del autobús que se desea filtrar (ejemplo: "BUS01").
+     * @return Lista con solo los registros correspondientes a ese busId.
+     */
+    public static ArrayList<GPSData> filtrarPorBus(ArrayList<GPSData> datos, String busId) {
+        ArrayList<GPSData> resultado = new ArrayList<>();
 
+        for (GPSData dato : datos) {
+            // Si el identificador del autobús coincide con el que buscamos (ignorando mayúsculas), lo añadimos
+            if (dato.getBusId().equalsIgnoreCase(busId)) {
+                resultado.add(dato);
+            }
+        }
+
+        return resultado;
     }
 }
