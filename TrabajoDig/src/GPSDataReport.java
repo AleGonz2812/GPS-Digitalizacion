@@ -95,4 +95,39 @@ public class GPSDataReport {
         }
     }
 
+    /**
+     * Exporta una lista de datos GPS a un archivo JSON sin usar librerías externas.
+     * @param registros Lista de objetos GPSData.
+     * @param archivoNombre Nombre del archivo de salida (ej: "bus01.json").
+     */
+    public static void exportarAJSON(ArrayList<GPSData> registros, String archivoNombre) {
+        try (FileWriter writer = new FileWriter(archivoNombre)) {
+            writer.write("[\n");
+
+            for (int i = 0; i < registros.size(); i++) {
+                GPSData d = registros.get(i);
+
+                writer.write("  {\n");
+                writer.write("    \"busId\": \"" + d.getBusId() + "\",\n");
+                writer.write("    \"timestamp\": \"" + d.getTimestamp() + "\",\n");
+                writer.write("    \"latitude\": " + d.getLatitude() + ",\n");
+                writer.write("    \"longitude\": " + d.getLongitude() + ",\n");
+                writer.write("    \"speed\": " + d.getSpeed() + "\n");
+                writer.write("  }");
+
+                if (i < registros.size() - 1) {
+                    writer.write(","); // Coma entre objetos
+                }
+                writer.write("\n");
+            }
+
+            writer.write("]\n");
+
+            System.out.println("Archivo JSON generado correctamente: " + archivoNombre);
+
+        } catch (IOException e) {
+            System.out.println("Error al guardar el JSON: " + e.getMessage());
+        }
+    }
+
 }

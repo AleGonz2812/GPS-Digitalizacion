@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class GPSDataProcessor {
 
     /**
-     * Método que valida una lista de registros GPS y devuelve solo los que son válidos.
+     * Metodo que valida una lista de registros GPS y devuelve solo los que son válidos.
      *
      * @param datos Lista de objetos GPSData que han sido cargados desde el archivo CSV.
      * @return Lista nueva que contiene solo los registros válidos.

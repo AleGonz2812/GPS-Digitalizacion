@@ -2,34 +2,34 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        // Generar el archivo CSV con 60 registros simulados de GPS
+        // Generar datos GPS simulados
         GPSDataGenerator.generarDatos("gps_data.csv");
 
-        // Cargar los datos desde el archivo CSV
+        // Cargar los datos desde el CSV
         ArrayList<GPSData> datos = GPSDataLoader.cargar("gps_data.csv");
 
-        // Validar los datos cargados (verifica latitud, longitud, velocidad, timestamp)
+        // Validar los datos (lat, lon, velocidad, timestamp)
         ArrayList<GPSData> datosValidos = GPSDataProcessor.validarDatos(datos);
 
-        // Filtrar registros que pertenecen solo al BUS01
-        ArrayList<GPSData> bus01 = GPSDataProcessor.filtrarPorBus(datosValidos, "BUS01");
+        // IDs de los autobuses simulados
+        String[] buses = {"BUS01", "BUS02", "BUS03"};
 
-        // Mostrar resultados en consola
-        System.out.println("Registros totales: " + datos.size());
-        System.out.println("Registros válidos: " + datosValidos.size());
-        System.out.println("Registros del BUS01: " + bus01.size());
+        // Procesar y exportar datos de cada autobús
+        for (String busId : buses) {
+            System.out.println("\n==============================");
+            System.out.println("    Resultados para " + busId);
+            System.out.println("==============================");
 
-        // Mostrar el primer dato del BUS01 como ejemplo
-        if (!bus01.isEmpty()) {
-            System.out.println("Primer dato de BUS01: " + bus01.get(0));
-        } else {
-            System.out.println("No hay datos para BUS01.");
+            ArrayList<GPSData> busFiltrado = GPSDataProcessor.filtrarPorBus(datosValidos, busId);
+
+            GPSDataReport.mostrarResumen(datos, datosValidos, busFiltrado);
+            GPSDataReport.mostrarRecorrido(busFiltrado);
+            GPSDataReport.calcularVelocidadMedia(busFiltrado);
+            GPSDataReport.detectarParadas(busFiltrado);
+
+            String nombreBase = busId.toLowerCase();
+            GPSDataReport.guardarInforme(datos, datosValidos, busFiltrado, nombreBase + "_informe.txt");
+            GPSDataReport.exportarAJSON(busFiltrado, nombreBase + ".json");
         }
-        GPSDataReport.mostrarResumen(datos, datosValidos, bus01);
-        GPSDataReport.mostrarRecorrido(bus01);
-        GPSDataReport.calcularVelocidadMedia(bus01);
-        GPSDataReport.guardarInforme(datos, datosValidos, bus01, "informe_bus01.txt");
-        GPSDataReport.detectarParadas(bus01);
-
     }
 }
